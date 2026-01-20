@@ -1,0 +1,164 @@
+1. Largest of Three Numbers
+
+Write a C program to read three integers and print the largest using nested if–else.
+
+Example
+Input: 3 7 5
+Output: 7 is the largest
+
+2. Check Pass or Fail with Distinction
+
+Input marks of a student:
+
+If marks ≥ 40 → Pass
+
+If marks ≥ 75 → Distinction
+
+Else → Fail
+
+3. Positive, Negative, or Zero
+
+Read a number:
+
+If number ≠ 0
+
+If number > 0 → Positive
+
+Else → Negative
+
+Else → Zero
+
+🟡 Medium Level
+4. Even or Odd and Multiple of 5
+
+Read an integer:
+
+If number is even
+
+Check if it is divisible by 5
+
+Else
+
+Print "Odd number"
+
+5. Leap Year Check
+
+Read a year and check:
+
+If divisible by 4
+
+If divisible by 100
+
+If divisible by 400 → Leap year
+
+Else → Not leap year
+
+Else → Leap year
+
+Else → Not leap year
+
+6. Character Classification
+
+Read a character:
+
+If alphabet
+
+Check if uppercase or lowercase
+
+Else
+
+If digit → Digit
+
+Else → Special character
+
+🔴 Hard Level
+7. Electricity Bill Calculation
+
+Input units consumed:
+
+If units ≤ 100 → ₹1/unit
+
+Else if units ≤ 200
+
+First 100 units → ₹1/unit
+
+Remaining → ₹2/unit
+
+Else
+
+First 100 → ₹1/unit
+
+Next 100 → ₹2/unit
+
+Remaining → ₹3/unit
+
+Use nested if–else, not switch.
+
+8. Salary Calculation
+
+Input basic salary:
+
+If basic ≥ 20000
+
+HRA = 30%, DA = 95%
+
+Else
+
+If basic ≥ 10000
+
+HRA = 25%, DA = 90%
+
+Else
+
+HRA = 20%, DA = 80%
+
+Calculate and print gross salary.
+
+9. Triangle Type Checker
+
+Input three sides:
+
+If valid triangle
+
+If all sides equal → Equilateral
+
+Else if any two equal → Isosceles
+
+Else → Scalene
+
+Else → Not a triangle
+
+10. Grade System
+
+Input marks:
+
+If marks ≥ 90 → Grade A
+
+Else
+
+If marks ≥ 75 → Grade B
+
+Else
+
+If marks ≥ 60 → Grade C
+
+Else
+
+If marks ≥ 40 → Grade D
+
+Else → Fail
+
+🔥 Challenge Problem
+11. ATM Transaction
+
+Input balance and withdrawal amount:
+
+If withdrawal ≤ balance
+
+If withdrawal % 100 == 0
+
+Deduct amount
+
+Else → Invalid amount
+
+Else → Insufficient balance
