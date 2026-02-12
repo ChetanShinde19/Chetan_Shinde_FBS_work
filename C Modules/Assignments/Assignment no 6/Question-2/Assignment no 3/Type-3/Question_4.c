@@ -1,0 +1,55 @@
+#include<stdio.h>
+int prime()
+{
+    int n,i=2,flag=1;
+    printf("enter the number:");
+    scanf(" %d", &n);
+    if (n<=1)
+    {
+        return 0;
+    }
+
+ // for ( int i = 2; i <=n/2; i++)
+    // {
+    //      if (n%i==0)
+    //     {
+    //         flag=0;
+    //         break;
+    //     }
+    // }
+
+    while (i<=n/2)
+    {
+        if (n%i==0)
+        {
+            flag=0;
+            break;
+        }
+        i++;
+    }
+    if (flag==1)
+    {
+        return 1;
+    }
+    else{
+        return 2;
+    }
+}
+int main()
+{
+
+    int result=prime();
+    if (result==0)
+    {
+        printf("It is not prime number:");
+  
+    }
+    if (result==1)
+    {
+        printf(" is prime number");
+
+    }
+    else{
+        printf(" is not a prime number");
+    } 
+}
