@@ -20,32 +20,38 @@ void display();
 int main()
 {
 
-    int choice=0;
+    int choice = 0;
     while (1)
     {
-     
-    
-    printf("Enter the choice:\n");
-    printf("1.Add new songs\n");
-    printf("2.Display the song library:\n");
-    scanf("%d", &choice);
-    
-    if (choice == 1)
-    {
 
-        add_songs();
-    }
-    if (choice == 2)
-    {
+        printf("======Music Library Menu======\n");
+        printf("1.Add new songs\n");
+        printf("2.Display the song library:\n");
+        printf("3.exit\n");
+        printf("Enter the choice:\n");
+        scanf("%d", &choice);
 
-        display();
+        if (choice == 1)
+        {
+
+            add_songs();
+        }
+        if (choice == 2)
+        {
+
+            display();
+        }
+        if (choice == 3)
+        {
+            printf("exiting program:");
+            break;
+        }
+
+        else
+        {
+            printf("Input Not Found!!\nEnter the Invalid input");
+        }
     }
-    else 
-    {
-        printf("Input Not Found!!\nEnter the Invalid input");
-        
-    }
-}
     return 0;
 }
 
@@ -53,9 +59,16 @@ void add_songs()
 {
     int num;
     printf("Enter no.of songs to add in music library :");
-        scanf("%d", &num);
+    scanf("%d", &num);
+    if (music_count+num>MAX)
+    {
+        printf("cannot add song memory is full!!\n");
+        return;
+    }
+    
     for (int i = 0; i < num; i++)
     {
+        printf("-----song %d-----",i+1);
         printf("enter the song id: ");
         scanf("%d", &music[music_count].id);
 
@@ -76,14 +89,14 @@ void add_songs()
 void display()
 {
 
-    
-    if (music_count==0)
+    if (music_count == 0)
     {
         printf("No songs has been stored in library");
     }
-    
+
     for (int i = 0; i < music_count; i++)
     {
+        printf("-----song %d-----",i+1);
         printf("song Id : %d\n", music[i].id);
         printf("song title:%s\n", music[i].title);
         printf("song artist name:%s\n", music[i].artist);
