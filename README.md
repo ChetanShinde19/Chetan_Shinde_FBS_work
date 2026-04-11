@@ -1,4 +1,4 @@
-# Hi there 👋 I'm Chetan Shinde!
+# Hi there 👋 I'm ChetanShinde19
 
 [![GitHub Streak](https://streak-stats.demolab.com?user=YOUR_USERNAME&theme=tokyonight)](https://git.io/streak-stats)
 
