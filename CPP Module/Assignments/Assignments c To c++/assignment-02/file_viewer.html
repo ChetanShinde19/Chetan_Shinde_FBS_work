@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Simple Calculator Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .code-section h2,
+        .explanation-section h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-section h2::before {
+            content: "💻";
+            font-size: 24px;
+        }
+
+        .explanation-section h2::before {
+            content: "📖";
+            font-size: 24px;
+        }
+
+        .code-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 4px solid #667eea;
+        }
+
+        .code-line {
+            margin: 4px 0;
+        }
+
+        .keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .operator {
+            color: #d4d4d4;
+        }
+
+        .explanation-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step {
+            background: #f5f5f5;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .step-code {
+            background: #e8e8e8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-top: 10px;
+            color: #333;
+            word-break: break-all;
+        }
+
+        .flow-section {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+            margin-top: 20px;
+        }
+
+        .flow-section h3 {
+            color: #764ba2;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .flow-item {
+            font-size: 13px;
+            color: #555;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .flow-item::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        .output-example {
+            background: #222;
+            color: #00ff00;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-top: 12px;
+            border-left: 4px solid #00ff00;
+        }
+
+        .footer {
+            background: #f8f8f8;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Simple Calculator Program</h1>
+            <p>C++ Program for Basic Arithmetic Operations</p>
+        </div>
+
+        <div class="content">
+            <!-- Code Section -->
+            <div class="code-section">
+                <h2>Source Code</h2>
+                <div class="code-box">
+                    <div class="code-line"><span class="keyword">#include</span> &lt;iostream&gt;</div>
+                    <div class="code-line"><span class="keyword">using namespace</span> std;</div>
+                    <div class="code-line"></div>
+                    <div class="code-line"><span class="keyword">int</span> <span class="function">main</span>()</div>
+                    <div class="code-line">{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> num1;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="string">"Enter the
+                            number-1: "</span>;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cin &gt;&gt; num1;</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="string">"Enter the
+                            number-2: "</span>;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cin &gt;&gt; num2;</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span> op;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="string">"Enter the
+                            operator: "</span>;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;cin &gt;&gt; op;</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (op == <span
+                            class="string">'+'</span>)</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span
+                            class="string">"Addition: "</span> &lt;&lt; num1 + num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else if</span> (op == <span
+                            class="string">'-'</span>)</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span
+                            class="string">"substraction: "</span> &lt;&lt; num1 - num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else if</span> (op == <span
+                            class="string">'*'</span>)</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span
+                            class="string">"multiplication: "</span> &lt;&lt; num1 * num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else if</span> (op == <span
+                            class="string">'/'</span>)</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span
+                            class="string">"division: "</span> &lt;&lt; num1 / num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else if</span> (op == <span
+                            class="string">'%'</span>)</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span
+                            class="string">"modulus: "</span> &lt;&lt; num1 % num2;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span></div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;<span
+                            class="string">"Enter a valid input"</span>;</div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span
+                            class="number">0</span>;</div>
+                    <div class="code-line">}</div>
+                </div>
+            </div>
+
+            <!-- Explanation Section -->
+            <div class="explanation-section">
+                <h2>Program Explanation</h2>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-title">Headers & Namespace</div>
+                    <div class="step-description">
+                        Program को input/output के लिए iostream की जरूरत है। std namespace का use करके code को छोटा
+                        लिखते हैं।
+                    </div>
+                    <div class="step-code">#include &lt;iostream&gt;<br>using namespace std;</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-title">Input लेना</div>
+                    <div class="step-description">
+                        User से 2 numbers लिए जाते हैं और एक operator। cout से message दिखाते हैं, cin से input लेते
+                        हैं।
+                    </div>
+                    <div class="step-code">cin &gt;&gt; num1; // user का input लेता है<br>cout &lt;&lt; "msg"; //
+                        message print करता है</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-title">Operator Check करना</div>
+                    <div class="step-description">
+                        if-else if statements का use करके कौन सा operation करना है यह check किया जाता है।
+                    </div>
+                    <div class="step-code">if (op == '+') { ... }<br>else if (op == '-') { ... }</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div class="step-title">Result Calculate करना</div>
+                    <div class="step-description">
+                        के अनुसार operation perform करके result को print किया जाता है।
+                    </div>
+                    <div class="step-code">Addition: 5 + 3 = 8<br>Subtraction: 5 - 3 = 2</div>
+                </div>
+
+                <div class="flow-section">
+                    <h3>🔄 Program Flow</h3>
+                    <div class="flow-item">User से पहला number input लेता है</div>
+                    <div class="flow-item">User से दूसरा number input लेता है</div>
+                    <div class="flow-item">User से operator (+, -, *, /, %) input लेता है</div>
+                    <div class="flow-item">Operator को check करके operation perform करता है</div>
+                    <div class="flow-item">Result को print करता है</div>
+                </div>
+
+                <div class="output-example">
+                    <strong>Example Output:</strong><br><br>
+                    Enter the number-1: 10<br>
+                    Enter the number-2: 5<br>
+                    Enter the operator: +<br>
+                    Addition: 15
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div style="margin-bottom: 10px;">
+                <span class="tag">C++</span>
+                <span class="tag">Basic Calculator</span>
+                <span class="tag">If-Else</span>
+                <span class="tag">Input/Output</span>
+            </div>
+            <p>✅ यह program 5 basic operations को support करता है: +, -, *, /, %</p>
+        </div>
+    </div>
+</body>
+
+</html>
