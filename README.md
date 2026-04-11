@@ -1,7 +1,7 @@
 # Hi there 👋 I'm ChetanShinde19
 
-[![GitHub Streak](https://streak-stats.demolab.com?user=YOUR_USERNAME&theme=tokyonight)](https://git.io/streak-stats)
+[![GitHub Streak](https://streak-stats.demolab.com?user=ChetanShinde19&theme=tokyonight)](https://git.io/streak-stats)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=tokyonight)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ChetanShinde19&layout=compact&theme=tokyonight&langs_count=6)](https://github.com/ChetanShinde19)
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=tokyonight)
+[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=ChetanShinde19&show_icons=true&theme=tokyonight)](https://github.com/ChetanShinde19)
