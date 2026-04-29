@@ -1,10 +1,6 @@
-<h1 align="center">⚡ MAHESH DEOKAR ⚡</h1>
+<h1 align="center">⚡ CHETAN SHINDE ⚡</h1>
 
-<p align="center">
-  <a href="https://msdeokar.github.io/my_portfolio/">
-    <img src="https://img.shields.io/badge/🌐 Portfolio-Visit-00F7FF?style=for-the-badge&logo=google-chrome&logoColor=black"/>
-  </a>
-</p>
+
 
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=36&pause=1000&color=00F7FF&center=true&vCenter=true&width=900&lines=🌌+Frontend-Backend+Developer;🚀+React+%7C+Next.js;💻+PG-DAC+(CDAC)+Graduate;⚡+Clean+UI+%2B+High+Performance;🧠+Explorer+of+ReactNative+%7C+Kotlin+%7C+TypeScript;📍+Pune+India" />
