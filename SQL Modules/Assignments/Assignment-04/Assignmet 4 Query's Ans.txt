@@ -1,0 +1,341 @@
+Q1)
+mysql> select FIRST_NAME,LAST_NAME from employees;
++------------+-----------+
+| FIRST_NAME | LAST_NAME |
++------------+-----------+
+| Steven     | King      |
+| Neena      | Kochhar   |
+| Lex        | De Haan   |
+| Alexander  | Hunold    |
+| Bruce      | Ernst     |
+| Nancy      | Greenberg |
+| Rahul      | Sharma    |
+| Priya      | Patil     |
+| Amit       | Kumar     |
+| Sneha      | Joshi     |
++------------+-----------+
+10 rows in set (0.00 sec)
+
+Q2)
+mysql> select DEPARTMENT_ID from employees;
++---------------+
+| DEPARTMENT_ID |
++---------------+
+|            90 |
+|            90 |
+|            90 |
+|            60 |
+|            60 |
+|           100 |
+|            90 |
+|            80 |
+|            80 |
+|            80 |
++---------------+
+10 rows in set (0.00 sec)
+
+Q3)
+ select * from employees
+    -> order by first_name desc;
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | JOB_ID | SALARY   | MANAGER_ID | DEPARTMENT_ID | commission_pct | EMAIL                  |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            90 |           0.10 | not available          |
+|         113 | Sneha      | Joshi     |      4 | 14000.00 |        300 |            80 |           0.18 | sneha.joshi@gmail.com  |
+|         110 | Rahul      | Sharma    |      5 |  8000.00 |        200 |            90 |           0.10 | rahul.sharma@gmail.com |
+|         111 | Priya      | Patil     |      4 | 13500.00 |        300 |            80 |           0.15 | priya.patil@gmail.com  |
+|         101 | Neena      | Kochhar   |      2 | 17000.00 |        200 |            90 |           0.10 | not available          |
+|         108 | Nancy      | Greenberg |      4 | 12000.00 |        145 |           100 |           0.10 | not available          |
+|         102 | Lex        | De Haan   |      2 | 15000.00 |        200 |            90 |           0.10 | not available          |
+|         104 | Bruce      | Ernst     |      3 |  6000.00 |        103 |            60 |           0.10 | not available          |
+|         112 | Amit       | Kumar     |      4 | 11000.00 |        300 |            80 |           0.12 | amit.kumar@gmail.com   |
+|         103 | Alexander  | Hunold    |      3 |  9000.00 |        103 |            60 |           0.10 | not available          |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+10 rows in set (0.00 sec)
+
+Q4)
+mysql> select first_name, last_name, salary,salary * 0.15 as PF from employees;
++------------+-----------+----------+-----------+
+| first_name | last_name | salary   | PF        |
++------------+-----------+----------+-----------+
+| Steven     | King      | 24000.00 | 3600.0000 |
+| Neena      | Kochhar   | 17000.00 | 2550.0000 |
+| Lex        | De Haan   | 15000.00 | 2250.0000 |
+| Alexander  | Hunold    |  9000.00 | 1350.0000 |
+| Bruce      | Ernst     |  6000.00 |  900.0000 |
+| Nancy      | Greenberg | 12000.00 | 1800.0000 |
+| Rahul      | Sharma    |  8000.00 | 1200.0000 |
+| Priya      | Patil     | 13500.00 | 2025.0000 |
+| Amit       | Kumar     | 11000.00 | 1650.0000 |
+| Sneha      | Joshi     | 14000.00 | 2100.0000 |
++------------+-----------+----------+-----------+
+10 rows in set (0.00 sec)
+
+Q5)
+mysql> select employee_id, first_name,last_name, salary from employees
+    -> order by salary desc;
++-------------+------------+-----------+----------+
+| employee_id | first_name | last_name | salary   |
++-------------+------------+-----------+----------+
+|         100 | Steven     | King      | 24000.00 |
+|         101 | Neena      | Kochhar   | 17000.00 |
+|         102 | Lex        | De Haan   | 15000.00 |
+|         113 | Sneha      | Joshi     | 14000.00 |
+|         111 | Priya      | Patil     | 13500.00 |
+|         108 | Nancy      | Greenberg | 12000.00 |
+|         112 | Amit       | Kumar     | 11000.00 |
+|         103 | Alexander  | Hunold    |  9000.00 |
+|         110 | Rahul      | Sharma    |  8000.00 |
+|         104 | Bruce      | Ernst     |  6000.00 |
++-------------+------------+-----------+----------+
+10 rows in set (0.00 sec)
+
+Q6)
+mysql> select sum(salary) as total_salary from employees;
++--------------+
+| total_salary |
++--------------+
+|    129500.00 |
++--------------+
+1 row in set (0.01 sec)
+
+Q7)
+mysql> select max(salary) as highest_salary,min(salary) as lowest_salary from employees;
++----------------+---------------+
+| highest_salary | lowest_salary |
++----------------+---------------+
+|       24000.00 |       6000.00 |
++----------------+---------------+
+1 row in set (0.00 sec)
+
+Q8)
+mysql> select avg(salary) as average_salary,count(employee_id) as total_employees from employees;
++----------------+-----------------+
+| average_salary | total_employees |
++----------------+-----------------+
+|   12950.000000 |              10 |
++----------------+-----------------+
+1 row in set (0.00 sec)
+
+					OR				
+
+mysql> select avg(salary) as average_salary,count(*) as total_employees from employees;
++----------------+-----------------+
+| average_salary | total_employees |
++----------------+-----------------+
+|   12950.000000 |              10 |
++----------------+-----------------+
+1 row in set (0.00 sec)
+
+Q9)
+mysql> select count(*) as total_employees from employees;
++-----------------+
+| total_employees |
++-----------------+
+|              10 |
++-----------------+
+1 row in set (0.01 sec)
+
+Q10)
+mysql> select count(distinct job_id) as job_roles from employees;
++-----------+
+| job_roles |
++-----------+
+|         5 |
++-----------+
+1 row in set (0.01 sec)
+
+Q11)
+mysql> select * from employees
+    -> limit 10;
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | JOB_ID | SALARY   | MANAGER_ID | DEPARTMENT_ID | commission_pct | EMAIL                  |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            90 |           0.10 | not available          |
+|         101 | Neena      | Kochhar   |      2 | 17000.00 |        200 |            90 |           0.10 | not available          |
+|         102 | Lex        | De Haan   |      2 | 15000.00 |        200 |            90 |           0.10 | not available          |
+|         103 | Alexander  | Hunold    |      3 |  9000.00 |        103 |            60 |           0.10 | not available          |
+|         104 | Bruce      | Ernst     |      3 |  6000.00 |        103 |            60 |           0.10 | not available          |
+|         108 | Nancy      | Greenberg |      4 | 12000.00 |        145 |           100 |           0.10 | not available          |
+|         110 | Rahul      | Sharma    |      5 |  8000.00 |        200 |            90 |           0.10 | rahul.sharma@gmail.com |
+|         111 | Priya      | Patil     |      4 | 13500.00 |        300 |            80 |           0.15 | priya.patil@gmail.com  |
+|         112 | Amit       | Kumar     |      4 | 11000.00 |        300 |            80 |           0.12 | amit.kumar@gmail.com   |
+|         113 | Sneha      | Joshi     |      4 | 14000.00 |        300 |            80 |           0.18 | sneha.joshi@gmail.com  |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+------------------------+
+10 rows in set (0.00 sec)
+
+Q12)
+mysql> select FIRST_NAME,LAST_NAME,SALARY from employees
+    -> where salary <10000 OR salary > 15000;
++------------+-----------+----------+
+| FIRST_NAME | LAST_NAME | SALARY   |
++------------+-----------+----------+
+| Steven     | King      | 24000.00 |
+| Neena      | Kochhar   | 17000.00 |
+| Alexander  | Hunold    |  9000.00 |
+| Bruce      | Ernst     |  6000.00 |
+| Rahul      | Sharma    |  8000.00 |
++------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+Q13)
+mysql> select FIRST_NAME,LAST_NAME,DEPARTMENT_ID from employees
+    -> where DEPARTMENT_ID in (30,100)
+    -> order by DEPARTMENT_ID;
++------------+-----------+---------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT_ID |
++------------+-----------+---------------+
+| Nancy      | Greenberg |           100 |
++------------+-----------+---------------+
+1 row in set (0.00 sec)
+
+Q14)
+mysql> select FIRST_NAME,LAST_NAME,salary from employees
+    -> where DEPARTMENT_ID in (30,100)
+    -> and (salary <10000 or salary >15000);
+Empty set (0.00 sec)
+
+mysql> SELECT first_name, last_name, salary
+    -> FROM employees
+    -> WHERE department_id IN (30, 100)
+    ->   AND salary NOT BETWEEN 10000 AND 15000;
+Empty set (0.00 sec
+
+Q15) 
+mysql> SELECT first_name, last_name, hire_date from employees
+    -> where year(hire_date)=1987;
++------------+-----------+------------+
+| first_name | last_name | hire_date  |
++------------+-----------+------------+
+| Steven     | King      | 1987-01-15 |
+| Neena      | Kochhar   | 1987-03-10 |
+| Lex        | De Haan   | 1987-06-25 |
++------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+Q16)
+mysql> SELECT first_name from employees
+    -> where first_name like '%b%' and first_name like '%c%';
++------------+
+| first_name |
++------------+
+| Bruce      |
++------------+
+1 row in set (0.00 sec)
+
+Q17)
+mysql>  select last_name,job_id,salary from employees
+    -> where job_id in (3,6)
+    -> and (salary != 4500 and salary != 10000 and salary != 15000);
++-----------+--------+----------+
+| last_name | job_id | salary   |
++-----------+--------+----------+
+| Hunold    |      3 |  9000.00 |
+| Ernst     |      3 |  6000.00 |
+| steve     |      6 | 34000.00 |
+| Patel     |      6 | 28000.00 |
+| Verma     |      6 | 31000.00 |
+| Mehta     |      6 | 25000.00 |
+| Khan      |      6 | 29500.00 |
++-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+			OR
+
+mysql> SELECT last_name,
+    ->        job_id,
+    ->        salary
+    -> FROM employees
+    -> WHERE job_id IN (3, 6)
+    ->   AND salary NOT IN (4500, 10000, 15000);
++-----------+--------+----------+
+| last_name | job_id | salary   |
++-----------+--------+----------+
+| Hunold    |      3 |  9000.00 |
+| Ernst     |      3 |  6000.00 |
+| steve     |      6 | 34000.00 |
+| Patel     |      6 | 28000.00 |
+| Verma     |      6 | 31000.00 |
+| Mehta     |      6 | 25000.00 |
+| Khan      |      6 | 29500.00 |
++-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+Q18)
+mysql> select last_name from employees
+    -> where length(last_name) =6;
++-----------+
+| last_name |
++-----------+
+| Hunold    |
+| Sharma    |
++-----------+
+2 rows in set (0.00 sec)
+
+Q19)
+mysql> select last_name from employees
+    -> where last_name like '__e%';
++-----------+
+| last_name |
++-----------+
+| steve     |
+| Greenberg |
++-----------+
+2 rows in set (0.00 sec)
+
+Q20)
+mysql> SELECT DISTINCT j.job_title
+    -> FROM employees e
+    -> JOIN jobs j
+    -> ON e.job_id = j.job_id;
++-------------------------------+
+| job_title                     |
++-------------------------------+
+| President                     |
+| Administration Vice President |
+| Programmer                    |
+| Shipping Clerk                |
+| Sales Manager                 |
+| HR Manager                    |
++-------------------------------+
+6 rows in set (0.00 sec)
+
+			OR
+mysql> select job_title from jobs;
++-------------------------------+
+| job_title                     |
++-------------------------------+
+| President                     |
+| Administration Vice President |
+| Programmer                    |
+| Sales Manager                 |
+| HR Manager                    |
+| Shipping Clerk                |
++-------------------------------+
+6 rows in set (0.00 sec)
+
+Q21)
+mysql> SELECT *
+    -> FROM employees
+    -> WHERE last_name IN ('BLAKE', 'SCOTT', 'KING', 'FORD');
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | JOB_ID | SALARY   | MANAGER_ID | DEPARTMENT_ID | commission_pct | EMAIL         | HIRE_DATE  |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            90 |           0.10 | not available | 1987-01-15 |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+1 row in set (0.00 sec)
+
+				OR
+
+mysql> SELECT *
+    -> FROM employees
+    -> WHERE last_name = 'BLAKE'
+    ->    OR last_name = 'SCOTT'
+    ->    OR last_name = 'KING'
+    ->    OR last_name = 'FORD';
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | JOB_ID | SALARY   | MANAGER_ID | DEPARTMENT_ID | commission_pct | EMAIL         | HIRE_DATE  |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            90 |           0.10 | not available | 1987-01-15 |
++-------------+------------+-----------+--------+----------+------------+---------------+----------------+---------------+------------+
+1 row in set (0.00 sec)
