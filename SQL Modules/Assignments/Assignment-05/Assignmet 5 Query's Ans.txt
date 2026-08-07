@@ -1,0 +1,996 @@
+Q1)
+mysql> select * from books
+    -> where author_name = 'loni' and cost < 600;
++---------+---------------------+-------------+--------+----------+
+| book_no | book_name           | author_name | cost   | category |
++---------+---------------------+-------------+--------+----------+
+|     102 | Oracle Complete Ref | Loni        | 550.00 | Database |
+|     103 | Mastering SQL       | Loni        | 250.00 | Database |
++---------+---------------------+-------------+--------+----------+
+2 rows in set (0.00 sec)
+
+Q2)
+mysql> table lib_issue;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | NULL        |
+|         7005 |     104 |         2 | 2025-03-15 | 2025-03-30  |
++--------------+---------+-----------+------------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from lib_issue;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | NULL        |
+|         7005 |     104 |         2 | 2025-03-15 | 2025-03-30  |
++--------------+---------+-----------+------------+-------------+
+2 rows in set (0.00 sec)
+
+Q3)
+mysql> update lib_issue
+    -> set return_date = '2025-12-31'
+    -> where lib_issue_id not in (7005,7006);
+Query OK, 6 rows affected (0.01 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+		or
+
+mysql> update issue
+    -> set return_date = '2025-12-31'
+    -> where lib_issue_id in(7002,7003,7007);
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 3  Changed: 1  Warnings: 0
+
+mysql> select * from lib_issue;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7005 |     104 |         2 | 2025-03-15 | 2025-03-30  |
+|         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         7007 |     104 |         2 | 2025-03-15 | 2025-12-31  |
+|         7008 |     105 |         4 | 2025-01-15 | 2025-12-31  |
+|         7009 |     106 |         5 | 2025-02-01 | 2025-12-31  |
+|         7010 |     107 |         1 | 2025-02-10 | 2025-12-31  |
+|         7011 |     108 |         3 | 2025-02-20 | 2025-12-31  |
++--------------+---------+-----------+------------+-------------+
+8 rows in set (0.00 sec)
+
+Q4)
+mysql> select * from lib_issue
+    -> where datediff (return_date,issue_date)> 30;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7007 |     104 |         2 | 2025-03-15 | 2025-12-31  |
+|         7008 |     105 |         4 | 2025-01-15 | 2025-12-31  |
+|         7009 |     106 |         5 | 2025-02-01 | 2025-12-31  |
+|         7010 |     107 |         1 | 2025-02-10 | 2025-12-31  |
+|         7011 |     108 |         3 | 2025-02-20 | 2025-12-31  |
++--------------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+Q5)
+mysql> select *  from books
+    -> where cost between 500 and 750 and category = 'Database';
++---------+---------------------+-------------+--------+----------+
+| book_no | book_name           | author_name | cost   | category |
++---------+---------------------+-------------+--------+----------+
+|     102 | Oracle Complete Ref | Loni        | 550.00 | Database |
+|     104 | PL SQL Ref          | Scott Urman | 750.00 | Database |
++---------+---------------------+-------------+--------+----------+
+2 rows in set (0.00 sec)
+
+Q6)
+mysql> select *  from books
+    -> where category in ('Science','Database','Fiction','Management');
++---------+---------------------+-------------------+---------+----------+
+| book_no | book_name           | author_name       | cost    | category |
++---------+---------------------+-------------------+---------+----------+
+|     102 | Oracle Complete Ref | Loni              |  550.00 | Database |
+|     103 | Mastering SQL       | Loni              |  250.00 | Database |
+|     104 | PL SQL Ref          | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures     | Seymour Lipschutz |  600.00 | Science  |
+|     109 | Harry Potter        | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks   | Andrew Tanenbaum  |  900.00 | Science  |
++---------+---------------------+-------------------+---------+----------+
+7 rows in set (0.00 sec)
+
+Q7)
+mysql> select * from member
+    -> order by penalty_amount desc;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          25.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |           NULL |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+Q8)
+mysql> update books
+    -> set cost ='300',category = 'RDBMS'
+    -> where book_no = 103;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *  from books;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  300.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
++---------+----------------------------+-------------------+---------+----------+
+10 rows in set (0.00 sec)
+
+Q9)
+mysql> select * from books
+    -> order by category asc ,cost desc;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     103 | Mastering SQL              | Loni              |  300.00 | RDBMS    |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
++---------+----------------------------+-------------------+---------+----------+
+10 rows in set (0.00 sec)
+
+Q10)
+mysql> select * from books
+    -> where book_name like '%SQL%';
++---------+---------------+-------------+--------+----------+
+| book_no | book_name     | author_name | cost   | category |
++---------+---------------+-------------+--------+----------+
+|     103 | Mastering SQL | Loni        | 300.00 | RDBMS    |
+|     104 | PL SQL Ref    | Scott Urman | 750.00 | Database |
++---------+---------------+-------------+--------+----------+
+2 rows in set (0.00 sec)
+
+Q11)
+mysql> select lib_issue_id,issue_date,return_date, datediff(return_date,issue_date) as no_of_days from lib_issue;
++--------------+------------+-------------+------------+
+| lib_issue_id | issue_date | return_date | no_of_days |
++--------------+------------+-------------+------------+
+|         7002 | 2024-12-25 | 2025-12-31  |        371 |
+|         7005 | 2025-03-15 | 2025-03-30  |         15 |
+|         7006 | 2024-12-25 | NULL        |       NULL |
+|         7007 | 2025-03-15 | 2025-12-31  |        291 |
+|         7008 | 2025-01-15 | 2025-12-31  |        350 |
+|         7009 | 2025-02-01 | 2025-12-31  |        333 |
+|         7010 | 2025-02-10 | 2025-12-31  |        324 |
+|         7011 | 2025-02-20 | 2025-12-31  |        314 |
++--------------+------------+-------------+------------+
+8 rows in set (0.00 sec)
+
+Q12)
+mysql> select  Member_Id ,member_name ,Member_Address,Acc_Open_Date as joining_date,Membership_Type,Fees_Paid,Max_Books_Allowed,Penalty_Amount
+    -> from member;
++-----------+--------------+----------------+--------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | joining_date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+--------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10   | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19   | Annual          |   1000.00 |                 3 |           NULL |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15   | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20   | Half Yearly     |    700.00 |                 3 |          25.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10   | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18   | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01   | Annual          |   1000.00 |                 3 |           NULL |
++-----------+--------------+----------------+--------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec) 
+
+mysql> select * from member
+    -> order by acc_open_date asc;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          25.00 |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |           NULL |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+
+mysql> select * from member
+    -> order by acc_open_date desc;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |           NULL |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          25.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+Q13)
+mysql> select sum(Max_Books_Allowed) as total_books_issued from member
+    -> where Member_Id=1;
++--------------------+
+| total_books_issued |
++--------------------+
+|                  5 |
++--------------------+
+1 row in set (0.00 sec)
+
+Q14)
+mysql> select sum(Penalty_Amount) as total_penalty_due from member;
++-------------------+
+| total_penalty_due |
++-------------------+
+|             85.00 |
++-------------------+
+1 row in set (0.00 sec)
+
+Q15)
+mysql> select  count(distinct member_id) as total_members from member;
++---------------+
+| total_members |
++---------------+
+|             7 |
++---------------+
+1 row in set (0.01 sec)
+
+Q16)
+mysql> select sum(Max_Books_Allowed) as total_books_issued from member;
++--------------------+
+| total_books_issued |
++--------------------+
+|                 25 |
++--------------------+
+1 row in set (0.00 sec)
+
+Q17)
+mysql> select avg(Fees_Paid) as average_membership_fees_paid
+    -> from member;
++------------------------------+
+| average_membership_fees_paid |
++------------------------------+
+|                  7757.142857 |
++------------------------------+
+1 row in set (0.00 sec)
+
+Q18)
+mysql> select distinct category ,count(*) as number_of_books from books
+    -> group by category;
++----------+-----------------+
+| category | number_of_books |
++----------+-----------------+
+| System   |               2 |
+| Database |               2 |
+| RDBMS    |               2 |
+| Science  |               3 |
+| Fiction  |               1 |
++----------+-----------------+
+5 rows in set (0.00 sec)
+
+Q19)
+mysql> SELECT book_no,
+    ->        COUNT(*) AS issue_count
+    -> FROM lib_issue
+    -> GROUP BY book_no
+    -> ORDER BY issue_count DESC;
++---------+-------------+
+| book_no | issue_count |
++---------+-------------+
+|     102 |           2 |
+|     104 |           2 |
+|     105 |           1 |
+|     106 |           1 |
+|     107 |           1 |
+|     108 |           1 |
++---------+-------------+
+6 rows in set (0.00 sec)
+
+Q20)
+mysql> select max(Penalty_Amount)  as maximum_Penalty_Amount,min(Penalty_Amount) as minimum_Penalty_Amount,sum(Penalty_Amount)  as total_Penalty_Amount,avg(Penalty_Amount) as average_Penalty_Amount from member;
++------------------------+------------------------+----------------------+------------------------+
+| maximum_Penalty_Amount | minimum_Penalty_Amount | total_Penalty_Amount | average_Penalty_Amount |
++------------------------+------------------------+----------------------+------------------------+
+|                  50.00 |                   0.00 |                85.00 |              17.000000 |
++------------------------+------------------------+----------------------+------------------------+
+1 row in set (0.00 sec)
+
+Q21)
+mysql> SELECT member_id
+    -> from lib_issue
+    -> group by member_id
+    -> having count(*) >2;
++-----------+
+| member_id |
++-----------+
+|         2 |
++-----------+
+1 row in set (0.00 sec)
+
+Q22)
+mysql> SELECT member_id,book_no,count(*) as issue_count
+    -> from lib_issue
+    -> group by   member_id,book_no;
++-----------+---------+-------------+
+| member_id | book_no | issue_count |
++-----------+---------+-------------+
+|         2 |     102 |           2 |
+|         2 |     104 |           2 |
+|         4 |     105 |           1 |
+|         5 |     106 |           1 |
+|         1 |     107 |           1 |
+|         3 |     108 |           1 |
++-----------+---------+-------------+
+6 rows in set (0.00 sec)
+
+Q23)
+mysql> select month(issue_date) as issue_date,count(*) as books_issued from lib_issue
+    group by month(issue_date)
+    order by books_issued desc;
++------------+--------------+
+| issue_date | books_issued |
++------------+--------------+
+|          2 |            3 |
+|         12 |            2 |
+|          3 |            2 |
+|          1 |            1 |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+Q24)
+mysql> select book_no from books
+    -> where book_no not in(select book_no from lib_issue);
++---------+
+| book_no |
++---------+
+|     101 |
+|     103 |
+|     109 |
+|     110 |
++---------+
+4 rows in set (0.00 sec)
+
+Q25)
+mysql> select distinct m.member_id from member as m
+    -> inner join lib_issue as i
+    -> on m.member_id = i.member_id;
++-----------+
+| member_id |
++-----------+
+|         1 |
+|         2 |
+|         3 |
+|         4 |
+|         5 |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT member_id
+    -> FROM Member
+    -> WHERE member_id IN (
+    ->     SELECT member_id
+    ->     FROM lib_Issue
+    -> );
++-----------+
+| member_id |
++-----------+
+|         1 |
+|         2 |
+|         3 |
+|         4 |
+|         5 |
++-----------+
+5 rows in set (0.00 sec)
+
+Q26)
+(
+mysql> (
+    -> select member_id,count(*) as books_issued,'highest' as type from lib_issue
+    -> group by member_id
+    -> order by books_issued desc
+    -> limit 1
+    -> )
+    -> union
+    -> (
+    -> select member_id,count(*) as books_issued,'lowest' as type from lib_issue
+    -> group by member_id
+    -> order by books_issued asc
+    -> limit 1);
++-----------+--------------+---------+
+| member_id | books_issued | type    |
++-----------+--------------+---------+
+|         2 |            4 | highest |
+|         1 |            1 | lowest  |
++-----------+--------------+---------+
+2 rows in set (0.00 sec)
+
+Q27)
+mysql> select * from lib_issue
+    -> where month(issue_date) = 12 or month(issue_date) = 7;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         7012 |     102 |         2 | 2026-07-05 | 2026-07-15  |
+|         7013 |     103 |         3 | 2026-07-12 | 2026-07-22  |
+|         7014 |     104 |         4 | 2026-07-18 | 2026-07-28  |
+|         7015 |     105 |         5 | 2026-07-25 | 2026-08-05  |
++--------------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from lib_issue
+    -> where month(issue_date) in (7,12);
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         7012 |     102 |         2 | 2026-07-05 | 2026-07-15  |
+|         7013 |     103 |         3 | 2026-07-12 | 2026-07-22  |
+|         7014 |     104 |         4 | 2026-07-18 | 2026-07-28  |
+|         7015 |     105 |         5 | 2026-07-25 | 2026-08-05  |
++--------------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+Q28)
+mysql> SELECT b.Book_No, b.Book_Name, i.Issue_Date
+    -> FROM books b
+    -> JOIN Lib_Issue i
+    -> ON b.Book_No = i.Book_No
+    -> WHERE MONTH(i.Issue_Date) = 12
+    -> AND b.Category = 'Database';
++---------+---------------------+------------+
+| Book_No | Book_Name           | Issue_Date |
++---------+---------------------+------------+
+|     102 | Oracle Complete Ref | 2024-12-25 |
+|     102 | Oracle Complete Ref | 2024-12-25 |
++---------+---------------------+------------+
+2 rows in set (0.00 sec)
+
+Q29)
+mysql> select   Member_Id,member_name,Max_Books_Allowed from member
+    -> order by  Max_Books_Allowed desc;
++-----------+--------------+-------------------+
+| Member_Id | member_name  | Max_Books_Allowed |
++-----------+--------------+-------------------+
+|         1 | Richa Sharma |                 5 |
+|         6 | Sneha Shah   |                 5 |
+|         3 | Amit Kumar   |                 4 |
+|         2 | Garima Sen   |                 3 |
+|         4 | Priya Patil  |                 3 |
+|         7 | Vikram Singh |                 3 |
+|         5 | Rahul Joshi  |                 2 |
++-----------+--------------+-------------------+
+7 rows in set (0.00 sec)
+
+Q30)
+mysql> select b.Book_No, b.Book_Name, l.Issue_Date ,l.Return_Date from books as b
+    -> join lib_issue as l
+    -> on b.book_no=l.Book_No
+    -> where member_id =1;
++---------+---------------------------+------------+-------------+
+| Book_No | Book_Name                 | Issue_Date | Return_Date |
++---------+---------------------------+------------+-------------+
+|     107 | Operating System Concepts | 2025-02-10 | 2025-12-31  |
++---------+---------------------------+------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select b.Book_No, b.Book_Name, l.Issue_Date ,l.Return_Date from books as b
+    -> join lib_issue as l
+    -> on b.book_no=l.Book_No
+    -> join member as m
+    -> on l.Member_Id=m.Member_Id
+    -> where m.member_name='Richa Sharma';
++---------+---------------------------+------------+-------------+
+| Book_No | Book_Name                 | Issue_Date | Return_Date |
++---------+---------------------------+------------+-------------+
+|     107 | Operating System Concepts | 2025-02-10 | 2025-12-31  |
++---------+---------------------------+------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select b.Book_No, b.Book_Name, l.Issue_Date ,l.Return_Date from books as b
+    -> join lib_issue as l
+    -> on b.book_no=l.Book_No
+    -> join member as m
+    -> on l.Member_Id=m.Member_Id
+    -> where m.Member_Id=1;
++---------+---------------------------+------------+-------------+
+| Book_No | Book_Name                 | Issue_Date | Return_Date |
++---------+---------------------------+------------+-------------+
+|     107 | Operating System Concepts | 2025-02-10 | 2025-12-31  |
++---------+---------------------------+------------+-------------+
+1 row in set (0.00 sec)
+
+Q31)
+mysql> SELECT DISTINCT m.*
+    -> FROM member AS m
+    -> JOIN lib_issue AS l
+    -> ON m.member_id = l.member_id
+    -> JOIN books AS b
+    -> ON b.book_no = l.book_no
+    -> WHERE b.category = 'Database';
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         2 | Garima Sen  | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |           NULL |
+|         4 | Priya Patil | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          25.00 |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+2 rows in set (0.00 sec)
+
+Q32)
+mysql> select * from books as b
+    -> where cost = (
+    ->     SELECT MAX(cost)
+    ->     FROM books
+    ->     WHERE category = b.category);
++---------+----------------------------+--------------+---------+----------+
+| book_no | book_name                  | author_name  | cost    | category |
++---------+----------------------------+--------------+---------+----------+
+|     104 | PL SQL Ref                 | Scott Urman  |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott   | 1000.00 | Science  |
+|     107 | Operating System Concepts  | Galvin       |  850.00 | System   |
+|     108 | Database Management System | Korth        |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling |  500.00 | Fiction  |
++---------+----------------------------+--------------+---------+----------+
+5 rows in set (0.00 sec)
+ 
+			or
+
+mysql> select category, max(cost) as max_cost from books
+    -> group by category
+    -> order by max_cost desc;
++----------+----------+
+| category | max_cost |
++----------+----------+
+| Science  |  1000.00 |
+| System   |   850.00 |
+| Database |   750.00 |
+| RDBMS    |   700.00 |
+| Fiction  |   500.00 |
++----------+----------+
+5 rows in set (0.00 sec)
+
+Q33)
+SELECT i.*
+FROM Issue i
+JOIN Member m
+ON i.Member_Id = m.Member_Id
+WHERE i.Issue_Date < m.Start_Date
+   OR i.Issue_Date > m.End_Date;
+
+Q34)
+mysql> SELECT m.*
+    -> FROM member m
+    -> LEFT JOIN lib_issue l
+    -> ON m.member_id = l.member_id
+    -> WHERE l.member_id IS NULL;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+2 rows in set (0.00 sec)
+
+Q35)
+mysql> select distinct m.member_id,m.member_name
+    -> from member as m
+    -> join issue as i
+    -> on m.member_id=i.member_id
+    -> where i.book_no in (102,104);
++-----------+----------------+
+| member_id | member_name    |
++-----------+----------------+
+|         2 | garima sen     |
+|         1 | richa sharma   |
+|         5 | Rohan Kulkarni |
++-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT m.member_id,
+    ->                 m.member_name
+    -> FROM member m
+    -> JOIN issue i
+    -> ON m.member_id = i.member_id
+    -> WHERE i.book_no IN (
+    ->     SELECT book_no
+    ->     FROM issue
+    ->     WHERE member_id = (
+    ->         SELECT member_id
+    ->         FROM member
+    ->         WHERE LOWER(member_name) = 'garima sen'
+    ->     )
+    -> );
++-----------+----------------+
+| member_id | member_name    |
++-----------+----------------+
+|         2 | garima sen     |
+|         1 | richa sharma   |
+|         5 | Rohan Kulkarni |
++-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT m.member_id, m.member_name
+    -> FROM Member m
+    -> JOIN Issue i ON m.member_id = i.member_id
+    -> WHERE i.book_no IN (
+    ->     SELECT i2.book_no
+    ->     FROM Issue i2
+    ->     JOIN Member m2 ON i2.member_id = m2.member_id
+    ->     WHERE m2.member_name = 'Garima Sen');
++-----------+----------------+
+| member_id | member_name    |
++-----------+----------------+
+|         2 | garima sen     |
+|         1 | richa sharma   |
+|         5 | Rohan Kulkarni |
++-----------+----------------+
+3 rows in set (0.00 sec)...
+
+Q36)
+mysql> select b.book_name,b.cost as price ,l.* from books as b
+    -> left join lib_issue as l
+    -> on b.book_no = l.book_no
+    -> where datediff(l.return_date,l.issue_date) >30;
++----------------------------+---------+--------------+---------+-----------+------------+-------------+
+| book_name                  | price   | lib_issue_id | book_no | member_id | issue_date | return_date |
++----------------------------+---------+--------------+---------+-----------+------------+-------------+
+| Oracle Complete Ref        |  550.00 |         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+| PL SQL Ref                 |  750.00 |         7007 |     104 |         2 | 2025-03-15 | 2025-12-31  |
+| National Geographic        | 1000.00 |         7008 |     105 |         4 | 2025-01-15 | 2025-12-31  |
+| Data Structures            |  600.00 |         7009 |     106 |         5 | 2025-02-01 | 2025-12-31  |
+| Operating System Concepts  |  850.00 |         7010 |     107 |         1 | 2025-02-10 | 2025-12-31  |
+| Database Management System |  700.00 |         7011 |     108 |         3 | 2025-02-20 | 2025-12-31  |
++----------------------------+---------+--------------+---------+-----------+------------+-------------+
+6 rows in set (0.00 sec)
+
+Q37)
+mysql> select b.author_name from books as b
+    -> group by author_name
+    -> having count(*)>1;
++-------------+
+| author_name |
++-------------+
+| Loni        |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT author_name,
+    ->        COUNT(*) AS total_books
+    -> FROM books
+    -> GROUP BY author_name
+    -> HAVING COUNT(*) > 1;
++-------------+-------------+
+| author_name | total_books |
++-------------+-------------+
+| Loni        |           2 |
++-------------+-----------
+
+Q38)
+mysql> SELECT m.member_id, m.member_name, COUNT(*) total
+    -> FROM Member m
+    -> JOIN Issue i ON m.member_id = i.member_id
+    -> GROUP BY m.member_id, m.member_name
+    -> HAVING total = (SELECT MAX(cnt) FROM (SELECT COUNT(*) cnt FROM Issue GROUP BY member_id) x)
+    ->     OR total = (SELECT MIN(cnt) FROM (SELECT COUNT(*) cnt FROM Issue GROUP BY member_id) x);
++-----------+-------------+-------+
+| member_id | member_name | total |
++-----------+-------------+-------+
+|         2 | garima sen  |     3 |
+|         3 | Amit Patil  |     1 |
+|         4 | Sneha Joshi |     1 |
++-----------+-------------+-------
+
+Q39)
+mysql> select * from books
+    -> order by cost desc
+    -> limit 3;
++---------+---------------------------+------------------+---------+----------+
+| book_no | book_name                 | author_name      | cost    | category |
++---------+---------------------------+------------------+---------+----------+
+|     105 | National Geographic       | Adis Scott       | 1000.00 | Science  |
+|     110 | Computer Networks         | Andrew Tanenbaum |  900.00 | Science  |
+|     107 | Operating System Concepts | Galvin           |  850.00 | System   |
++---------+---------------------------+------------------+---------+----------+
+3 rows in set (0.00 sec)
+
+Q40)
+mysql> SELECT SUM(b.cost) AS total_cost
+    FROM books b
+    JOIN lib_issue l
+    on b.book_no = l.book_no
+    WHERE l.return_date IS NULL;
++------------+
+| total_cost |
++------------+
+|     550.00 |
++------------+
+1 row in set (0.00 sec)
+
+Q41)
+mysql> SELECT b.book_no,
+    ->        b.book_name,
+    ->        COUNT(*) AS total_issue
+    -> FROM books AS b
+    -> JOIN issue AS i
+    -> ON b.book_no = i.book_no
+    -> GROUP BY b.book_no, b.book_name
+    -> ORDER BY total_issue DESC
+    -> LIMIT 1;
++---------+------------+-------------+
+| book_no | book_name  | total_issue |
++---------+------------+-------------+
+|     104 | pl sql ref |           3 |
++---------+------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT b.book_no,
+    ->        b.book_name,
+    ->        COUNT(*) AS total_issues
+    -> FROM books b
+    -> JOIN issue i
+    -> ON b.book_no = i.book_no
+    -> GROUP BY b.book_no, b.book_name
+    -> HAVING COUNT(*) = (
+    ->     SELECT MAX(total_issues)
+    ->     FROM (
+    ->         SELECT COUNT(*) AS total_issues
+    ->         FROM issue
+    ->         GROUP BY book_no
+    ->     ) AS t
+    -> );
++---------+------------+--------------+
+| book_no | book_name  | total_issues |
++---------+------------+--------------+
+|     104 | pl sql ref |            3 |
++---------+------------+--------------+
+1 row in set (0.00 sec)
+
+42)
+mysql> select count(*) as total_books_issued from issue as i
+    -> where member_id in (
+    -> select member_id from member
+    -> where membership_type = 'lifetime');
++--------------------+
+| total_books_issued |
++--------------------+
+|                  3 |
++--------------------+
+1 row in set (0.00 sec)
+ 
+or
+mysql> select count(*) as total_books
+    -> from issue as i
+    -> join member as m
+    -> on i.member_id =m.member_id
+    -> where membership_type = 'lifetime';
++-------------+
+| total_books |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+43)
+mysql> select distinct membership_type,count(member_id) as total_members
+    -> from member
+    -> group by membership_type;
++-----------------+---------------+
+| membership_type | total_members |
++-----------------+---------------+
+| lifetime        |             3 |
+| annual          |             4 |
++-----------------+---------------+
+2 rows in set (0.00 sec)
+
+44)
+mysql> select * from member
+    -> order by acc_open_date asc
+    -> limit 5;
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| member_id | member_name    | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | richa sharma   | pune           | 2010-12-05    | lifetime        |  25000.00 |                 5 |          50.00 |
+|         6 | Neha Deshmukh  | Nagpur         | 2024-11-05    | Lifetime        |  25000.00 |                 5 |          75.00 |
+|         4 | Sneha Joshi    | Pune           | 2025-08-20    | Lifetime        |  25000.00 |                 6 |          25.00 |
+|         3 | Amit Patil     | Mumbai         | 2026-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         5 | Rohan Kulkarni | Nashik         | 2026-03-10    | Annual          |   1000.00 |                 3 |           0.00 |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+45)
+mysql> select m.*,i.*
+    -> from member as m
+    -> join issue as i
+    -> on m.member_id=i.member_id
+    -> where month(issue_date) = 12;
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+| member_id | member_name    | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount | lib_issue_id | book_no | member_id | issue_date | return_date |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+|         2 | garima sen     | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         2 | garima sen     | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         5 | Rohan Kulkarni | Nashik         | 2026-03-10    | Annual          |   1000.00 |                 3 |           0.00 |         7007 |     104 |         5 | 2024-12-10 | 2025-12-31  |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+3 rows in set (0.00 sec)
+
+46)
+mysql> select m.*,i.*
+    -> from member as m
+    -> join issue as i
+    -> on m.member_id=i.member_id
+    -> where return_date is null;
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+| member_id | member_name | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount | lib_issue_id | book_no | member_id | issue_date | return_date |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+|         2 | garima sen  | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |         7006 |     102 |         2 | 2024-12-25 | NULL        |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+1 row in set (0.00 sec)
+
+47)
+mysql> select m.*
+    -> from member as m
+    -> where acc_open_date = '2026-07-27';
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| member_id | member_name | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         2 | garima sen  | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from member
+    -> where acc_open_date = (
+    -> select acc_open_date from member
+    -> where member_name = 'garima sen');
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| member_id | member_name | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         2 | garima sen  | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+1 row in set (0.00 sec)
+
+48)
+mysql>  select m.*,i.*
+    -> from member as m
+    -> join issue as i
+    ->  on m.member_id=i.member_id
+    -> where book_no in (102,103) and month(issue_date) = 12;
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+| member_id | member_name | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount | lib_issue_id | book_no | member_id | issue_date | return_date |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+|         2 | garima sen  | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         2 | garima sen  | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |           NULL |         7006 |     102 |         2 | 2024-12-25 | NULL        |
++-----------+-------------+----------------+---------------+-----------------+-----------+-------------------+----------------+--------------+---------+-----------+------------+-------------+
+2 rows in set (0.00 sec)
+
+
+49)
+mysql> SELECT b.author_name,
+    ->        COUNT(*) AS total_issues
+    -> FROM books b
+    -> JOIN issue i
+    -> ON b.book_no = i.book_no
+    -> JOIN member m
+    -> ON i.member_id = m.member_id
+    -> WHERE LOWER(m.membership_type) = 'lifetime'
+    -> GROUP BY b.author_name
+    -> HAVING COUNT(*) = (
+    ->     SELECT MIN(issue_count)
+    ->     FROM (
+    ->         SELECT COUNT(*) AS issue_count
+    ->         FROM books b
+    ->         JOIN issue i
+    ->         ON b.book_no = i.book_no
+    ->         JOIN member m
+    ->         ON i.member_id = m.member_id
+    ->         WHERE LOWER(m.membership_type) = 'lifetime'
+    ->         GROUP BY b.author_name
+    ->     ) AS t
+    -> );
++-----------------+--------------+
+| author_name     | total_issues |
++-----------------+--------------+
+| scott uram      |            1 |
+| adis scott      |            1 |
+| Khaled Hosseini |            1 |
+
+50)
+mysql> select m.member_id,m.member_name,b.book_no,i.issue_date ,i.return_date,b.book_name, b.author_name,b.cost,b.category
+    -> from member as m
+    -> join issue as i
+    -> on m.member_id = i.member_id
+    -> join books as b
+    -> on i.book_no = b.book_no
+    -> where b.cost > 300 and author_name in ('scott uram');
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+| member_id | member_name    | book_no | issue_date | return_date | book_name  | author_name | cost   | category |
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+|         1 | richa sharma   |     104 | 2025-01-15 | 2025-12-31  | pl sql ref | scott uram  | 750.00 | database |
+|         2 | garima sen     |     104 | 2025-03-15 | 2025-03-30  | pl sql ref | scott uram  | 750.00 | database |
+|         5 | Rohan Kulkarni |     104 | 2024-12-10 | 2025-12-31  | pl sql ref | scott uram  | 750.00 | database |
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+3 rows in set (0.00 sec)
+
+or
+
+mysql> select m.member_id,m.member_name,b.book_no,i.issue_date ,i.return_date,b.book_name, b.author_name,b.cost,b.category
+    -> from member as m
+    -> join issue as i
+    -> on m.member_id = i.member_id
+    -> join books as b
+    -> on i.book_no = b.book_no
+    -> where b.cost > 300 and b.book_no in (104);
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+| member_id | member_name    | book_no | issue_date | return_date | book_name  | author_name | cost   | category |
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+|         1 | richa sharma   |     104 | 2025-01-15 | 2025-12-31  | pl sql ref | scott uram  | 750.00 | database |
+|         2 | garima sen     |     104 | 2025-03-15 | 2025-03-30  | pl sql ref | scott uram  | 750.00 | database |
+|         5 | Rohan Kulkarni |     104 | 2024-12-10 | 2025-12-31  | pl sql ref | scott uram  | 750.00 | database |
++-----------+----------------+---------+------------+-------------+------------+-------------+--------+----------+
+3 rows in set (0.00 sec)
+
+51)
+mysql> SELECT m.member_id,
+    ->        m.member_name,
+    ->        m.membership_type
+    -> FROM member m
+    -> JOIN issue i
+    -> ON m.member_id = i.member_id
+    -> WHERE LOWER(m.membership_type) = 'lifetime'
+    ->   AND YEAR(m.acc_open_date) = 2006
+    -> GROUP BY m.member_id,
+    ->          m.member_name,
+    ->          m.membership_type
+    -> HAVING COUNT(i.book_no) = 1;
++-----------+-------------+-----------------+
+| member_id | member_name | membership_type |
++-----------+-------------+-----------------+
+|         4 | Sneha Joshi | Lifetime        |
++-----------+-------------+-----------------+
+
+52)
+mysql> update member
+    -> set penalty_amount = 100
+    -> where member_name = 'Garima Sen';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table member;
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| member_id | member_name    | member_address | acc_open_date | membership_type | fees_paid | max_books_allowed | penalty_amount |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | richa sharma   | pune           | 2010-12-05    | lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | garima sen     | pune           | 2026-07-27    | annual          |   1000.00 |                 3 |         100.00 |
+|         3 | Amit Patil     | Mumbai         | 2026-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Sneha Joshi    | Pune           | 2006-08-20    | Lifetime        |  25000.00 |                 6 |          25.00 |
+|         5 | Rohan Kulkarni | Nashik         | 2026-03-10    | Annual          |   1000.00 |                 3 |           0.00 |
+|         6 | Neha Deshmukh  | Nagpur         | 2024-11-05    | Lifetime        |  25000.00 |                 5 |          75.00 |
+|         7 | Vikas More     | Aurangabad     | 2026-06-01    | Annual          |   1500.00 |                 4 |           NULL |
++-----------+----------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
