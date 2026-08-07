@@ -1,0 +1,143 @@
+Q1)
+mysql> CREATE USER 'library_staff'@'localhost'
+    -> IDENTIFIED BY 'staff123';
+Query OK, 0 rows affected (0.02 sec)
+
+Q2)
+mysql> SELECT User, Host
+    -> FROM mysql.user;
++------------------+-----------+
+| User             | Host      |
++------------------+-----------+
+| library_staff    | localhost |
+| mysql.infoschema | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| root             | localhost |
++------------------+-----------+
+5 rows in set (0.00 sec)
+
+Q3)
+GRANT SELECT
+ON assignment_no_02.books
+TO 'library_staff'@'localhost';
+
+Q4)
+mysql> GRANT INSERT
+    -> ON assignment_no_02.lib_issue
+    -> TO 'library_staff'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+Q5)
+mysql> GRANT UPDATE (return_date)
+    -> ON assignment_no_02.lib_issue
+    -> TO 'library_staff'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+Q6)
+mysql> SHOW GRANTS FOR 'library_staff'@'localhost';
++-------------------------------------------------------------------------------------------------------+
+| Grants for library_staff@localhost                                                                    |
++-------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `library_staff`@`localhost`                                                     |
+| GRANT SELECT ON `assignment_no_02`.`books` TO `library_staff`@`localhost`                             |
+| GRANT INSERT, UPDATE (`return_date`) ON `assignment_no_02`.`lib_issue` TO `library_staff`@`localhost` |
++-------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+Q7)
+mysql> REVOKE DELETE
+    -> ON assignment_no_02.*
+    -> FROM 'library_staff'@'localhost';
+ERROR 1141 (42000): There is no such grant defined for user 'library_staff' on host 'localhost'
+mysql> SHOW GRANTS FOR 'library_staff'@'localhost';
++-------------------------------------------------------------------------------------------------------+
+| Grants for library_staff@localhost                                                                    |
++-------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `library_staff`@`localhost`                                                     |
+| GRANT SELECT ON `assignment_no_02`.`books` TO `library_staff`@`localhost`                             |
+| GRANT INSERT, UPDATE (`return_date`) ON `assignment_no_02`.`lib_issue` TO `library_staff`@`localhost` |
++-------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+Q8)
+mysql> CREATE USER 'librarian_admin'@'localhost'
+    -> IDENTIFIED BY 'admin123';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT ALL PRIVILEGES
+    -> ON assignment_no_02.member
+    -> TO 'librarian_admin'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT ALL PRIVILEGES
+    -> ON assignment_no_02.issue
+    -> TO 'librarian_admin'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+
+Q9)
+mysql> SHOW GRANTS FOR 'librarian_admin'@'localhost';
++--------------------------------------------------------------------------------------+
+| Grants for librarian_admin@localhost                                                 |
++--------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `librarian_admin`@`localhost`                                  |
+| GRANT ALL PRIVILEGES ON `assignment_no_02`.`issue` TO `librarian_admin`@`localhost`  |
+| GRANT ALL PRIVILEGES ON `assignment_no_02`.`member` TO `librarian_admin`@`localhost` |
++--------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+
+Q10)
+mysql> REVOKE UPDATE (cost)
+    -> ON assignment_no_02.books
+    -> FROM 'librarian_admin'@'localhost';
+ERROR 1147 (42000): There is no such grant defined for user 'librarian_admin' on host 'localhost' on table 'books'
+
+Q11)
+mysql> SHOW GRANTS FOR 'librarian_admin'@'localhost';
++--------------------------------------------------------------------------------------+
+| Grants for librarian_admin@localhost                                                 |
++--------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `librarian_admin`@`localhost`                                  |
+| GRANT ALL PRIVILEGES ON `assignment_no_02`.`issue` TO `librarian_admin`@`localhost`  |
+| GRANT ALL PRIVILEGES ON `assignment_no_02`.`member` TO `librarian_admin`@`localhost` |
++--------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+Q12)
+mysql> GRANT UPDATE (penalty_amount)
+    -> ON assignment_no_02.member
+    -> TO 'library_staff'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+Q13)
+mysql> SHOW GRANTS FOR 'library_staff'@'localhost';
++-------------------------------------------------------------------------------------------------------+
+| Grants for library_staff@localhost                                                                    |
++-------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `library_staff`@`localhost`                                                     |
+| GRANT SELECT ON `assignment_no_02`.`books` TO `library_staff`@`localhost`                             |
+| GRANT INSERT, UPDATE (`return_date`) ON `assignment_no_02`.`lib_issue` TO `library_staff`@`localhost` |
+| GRANT UPDATE (`penalty_amount`) ON `assignment_no_02`.`member` TO `library_staff`@`localhost`         |
++-------------------------------------------------------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+Q14)
+mysql> REVOKE ALL PRIVILEGES, GRANT OPTION
+    -> FROM 'library_staff'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+Q15)
+mysql> SHOW GRANTS FOR 'library_staff'@'localhost';
++---------------------------------------------------+
+| Grants for library_staff@localhost                |
++---------------------------------------------------+
+| GRANT USAGE ON *.* TO `library_staff`@`localhost` |
++---------------------------------------------------+
+1 row in set (0.00 sec)
+
+Q16)
+mysql> DROP USER 'library_staff'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
