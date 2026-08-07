@@ -1,0 +1,119 @@
+Q1)
+mysql> create view Book_List
+    -> as
+    -> select Book_No, Book_Name, Author_Name, Cost, Category
+    -> from books;
+Query OK, 0 rows affected (0.01 sec)
+
+
+Q2)
+mysql> SELECT * FROM Book_List;
++---------+----------------------------+-------------------+---------+----------+
+| Book_No | Book_Name                  | Author_Name       | Cost    | Category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  300.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
++---------+----------------------------+-------------------+---------+----------+
+10 rows in set (0.01 sec)
+
+Q3)
+mysql> create view Issued_Books as
+    -> select l.Lib_Issue_Id, l.Book_No, l.Member_Id, l.Issue_Date
+    -> from lib_issue as l
+    -> join books as b
+    -> on l.book_no = b.book_no
+    -> where Return_Date is NULL;
+Query OK, 0 rows affected (0.01 sec)
+
+Q4)
+mysql> table Issued_Books;
++--------------+---------+-----------+------------+
+| Lib_Issue_Id | Book_No | Member_Id | Issue_Date |
++--------------+---------+-----------+------------+
+|         7006 |     102 |         2 | 2024-12-25 |
++--------------+---------+-----------+------------+
+1 row in set (0.00 sec)
+
+Q5)mysql> create view Member_Penalty as
+    -> select Member_Id,
+    -> Member_Name, Penalty_Amount
+    ->  from member
+    -> where Penalty_Amount > 0;
+Query OK, 0 rows affected (0.01 sec)
+
+Q6)
+mysql> table Member_Penalty;
++-----------+--------------+----------------+
+| Member_Id | Member_Name  | Penalty_Amount |
++-----------+--------------+----------------+
+|         1 | Richa Sharma |          50.00 |
+|         4 | Priya Patil  |          25.00 |
+|         5 | Rahul Joshi  |          10.00 |
++-----------+--------------+----------------+
+3 rows in set (0.00 sec)
+
+Q7)
+mysql> update Member_Penalty
+    -> set Penalty_Amount = 60
+    -> where Member_Id = 4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table Member_Penalty;
++-----------+--------------+----------------+
+| Member_Id | Member_Name  | Penalty_Amount |
++-----------+--------------+----------------+
+|         1 | Richa Sharma |          50.00 |
+|         4 | Priya Patil  |          60.00 |
+|         5 | Rahul Joshi  |          10.00 |
++-----------+--------------+----------------+
+3 rows in set (0.00 sec)
+
+Q8)
+mysql>  create view Book_Issue_Details as
+    -> select b.Book_Name, m.Member_Name, l.Issue_Date, l.Return_Date
+    -> from books as b
+    -> join lib_issue as l
+    -> on b.book_no = l.book_no
+    -> join member as m
+    -> on m.Member_Id = l.Member_Id;
+Query OK, 0 rows affected (0.01 sec)
+
+Q9)
+mysql> table Book_Issue_Details;
++----------------------------+--------------+------------+-------------+
+| Book_Name                  | Member_Name  | Issue_Date | Return_Date |
++----------------------------+--------------+------------+-------------+
+| Oracle Complete Ref        | Garima Sen   | 2024-12-25 | 2025-12-31  |
+| PL SQL Ref                 | Garima Sen   | 2025-03-15 | 2025-03-30  |
+| Oracle Complete Ref        | Garima Sen   | 2024-12-25 | NULL        |
+| PL SQL Ref                 | Garima Sen   | 2025-03-15 | 2025-12-31  |
+| National Geographic        | Priya Patil  | 2025-01-15 | 2025-12-31  |
+| Data Structures            | Rahul Joshi  | 2025-02-01 | 2025-12-31  |
+| Operating System Concepts  | Richa Sharma | 2025-02-10 | 2025-12-31  |
+| Database Management System | Amit Kumar   | 2025-02-20 | 2025-12-31  |
+| Oracle Complete Ref        | Garima Sen   | 2026-07-05 | 2026-07-15  |
+| Mastering SQL              | Amit Kumar   | 2026-07-12 | 2026-07-22  |
+| PL SQL Ref                 | Priya Patil  | 2026-07-18 | 2026-07-28  |
+| National Geographic        | Rahul Joshi  | 2026-07-25 | 2026-08-05  |
++----------------------------+--------------+------------+-------------+
+12 rows in set (0.00 sec)
+
+Q10)mysql> drop view Issued_Books
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+
+Q11) and Q12)
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> drop view Book_Issue_Details,Member_Penalty;
+Query OK, 0 rows affected (0.01 sec)
+
