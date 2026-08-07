@@ -1,0 +1,324 @@
+
+Q1)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO member
+    -> (member_id,
+    ->  member_name,
+    ->  member_address,
+    ->  acc_open_date,
+    ->  membership_type,
+    ->  fees_paid,
+    ->  max_books_allowed,
+    ->  penalty_amount)
+    -> VALUES
+    -> (8,
+    ->  'Rahul Sharma',
+    ->  'Delhi',
+    ->  '2026-08-07',
+    ->  'Annual',
+    ->  1000,
+    ->  3,
+    ->  0);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |           NULL |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          60.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         8 | Rahul Sharma | Delhi          | 2026-08-07    | Annual          |   1000.00 |                 3 |           0.00 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+Q2)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO books
+    -> (book_no, book_name, author_name, cost, category)
+    -> VALUES
+    -> (111, 'Advanced MySQL', 'Paul DuBois', 650, 'Database');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> table books;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  300.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
+|     111 | Advanced MySQL             | Paul DuBois       |  650.00 | Database |
++---------+----------------------------+-------------------+---------+----------+
+11 rows in set (0.00 sec)
+
+Q3)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update member
+    -> set Penalty_Amount = 200
+    -> where Member_Id = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> table member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |         200.00 |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          60.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         8 | Rahul Sharma | Delhi          | 2026-08-07    | Annual          |   1000.00 |                 3 |           0.00 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+8 rows in set (0.00 sec)
+
+Q4)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>  INSERT INTO lib_issue
+    -> (lib_issue_id, book_no, member_id, issue_date, return_date)
+    -> values
+    ->  (7016, 101, 6, '2026-08-01',  '2026-08-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |         200.00 |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          60.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 5 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         8 | Rahul Sharma | Delhi          | 2026-08-07    | Annual          |   1000.00 |                 3 |           0.00 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> update member
+    -> set Max_Books_Allowed = 9
+    -> where Member_Id = 6;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | member_name  | Member_Address | Acc_Open_Date | Membership_Type | Fees_Paid | Max_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |  25000.00 |                 5 |          50.00 |
+|         2 | Garima Sen   | Pune           | 2026-06-19    | Annual          |   1000.00 |                 3 |         200.00 |
+|         3 | Amit Kumar   | Mumbai         | 2024-01-15    | Annual          |   1200.00 |                 4 |           0.00 |
+|         4 | Priya Patil  | Nashik         | 2023-06-20    | Half Yearly     |    700.00 |                 3 |          60.00 |
+|         5 | Rahul Joshi  | Nagpur         | 2022-09-10    | Quarterly       |    400.00 |                 2 |          10.00 |
+|         6 | Sneha Shah   | Pune           | 2021-03-18    | Lifetime        |  25000.00 |                 9 |           0.00 |
+|         7 | Vikram Singh | Delhi          | 2025-02-01    | Annual          |   1000.00 |                 3 |           NULL |
+|         8 | Rahul Sharma | Delhi          | 2026-08-07    | Annual          |   1000.00 |                 3 |           0.00 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+Q5)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update books
+    -> set cost = 350
+    -> where book_no =103;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table books;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  350.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
+|     111 | Advanced MySQL             | Paul DuBois       |  650.00 | Database |
++---------+----------------------------+-------------------+---------+----------+
+11 rows in set (0.00 sec)
+
+mysql> savepoint books1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from lib_issue
+    -> where lib_issue_id =7016;
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  table lib_issue;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7005 |     104 |         2 | 2025-03-15 | 2025-03-30  |
+|         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         7007 |     104 |         2 | 2025-03-15 | 2025-12-31  |
+|         7008 |     105 |         4 | 2025-01-15 | 2025-12-31  |
+|         7009 |     106 |         5 | 2025-02-01 | 2025-12-31  |
+|         7010 |     107 |         1 | 2025-02-10 | 2025-12-31  |
+|         7011 |     108 |         3 | 2025-02-20 | 2025-12-31  |
+|         7012 |     102 |         2 | 2026-07-05 | 2026-07-15  |
+|         7013 |     103 |         3 | 2026-07-12 | 2026-07-22  |
+|         7014 |     104 |         4 | 2026-07-18 | 2026-07-28  |
+|         7015 |     105 |         5 | 2026-07-25 | 2026-08-05  |
++--------------+---------+-----------+------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> rollback to books1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> table  books;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  350.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
+|     111 | Advanced MySQL             | Paul DuBois       |  650.00 | Database |
++---------+----------------------------+-------------------+---------+----------+
+11 rows in set (0.00 sec)
+
+mysql> table lib_issue;
++--------------+---------+-----------+------------+-------------+
+| lib_issue_id | book_no | member_id | issue_date | return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2024-12-25 | 2025-12-31  |
+|         7005 |     104 |         2 | 2025-03-15 | 2025-03-30  |
+|         7006 |     102 |         2 | 2024-12-25 | NULL        |
+|         7007 |     104 |         2 | 2025-03-15 | 2025-12-31  |
+|         7008 |     105 |         4 | 2025-01-15 | 2025-12-31  |
+|         7009 |     106 |         5 | 2025-02-01 | 2025-12-31  |
+|         7010 |     107 |         1 | 2025-02-10 | 2025-12-31  |
+|         7011 |     108 |         3 | 2025-02-20 | 2025-12-31  |
+|         7012 |     102 |         2 | 2026-07-05 | 2026-07-15  |
+|         7013 |     103 |         3 | 2026-07-12 | 2026-07-22  |
+|         7014 |     104 |         4 | 2026-07-18 | 2026-07-28  |
+|         7015 |     105 |         5 | 2026-07-25 | 2026-08-05  |
+|         7016 |     101 |         6 | 2026-08-01 | 2026-08-12  |
++--------------+---------+-----------+------------+-------------+
+13 rows in set (0.00 sec)
+
+Q6)
+mysql> SELECT *
+    -> FROM books
+    -> WHERE book_no = 101;
++---------+-----------+---------------+--------+----------+
+| book_no | book_name | author_name   | cost   | category |
++---------+-----------+---------------+--------+----------+
+|     101 | Let Us C  | Denis Ritchie | 450.00 | System   |
++---------+-----------+---------------+--------+----------+
+1 row in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE books
+    -> SET cost = 500
+    -> WHERE book_no = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT *
+    -> FROM books
+    -> WHERE book_no = 101;
++---------+-----------+---------------+--------+----------+
+| book_no | book_name | author_name   | cost   | category |
++---------+-----------+---------------+--------+----------+
+|     101 | Let Us C  | Denis Ritchie | 500.00 | System   |
++---------+-----------+---------------+--------+----------+
+1 row in set (0.00 sec)
+
+Q7)
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE books
+    -> SET cost = 450
+    -> WHERE book_no = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE books
+    -> SET cost = 550
+    -> WHERE book_no = 102;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> ROLLBACK TO sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> table books;
++---------+----------------------------+-------------------+---------+----------+
+| book_no | book_name                  | author_name       | cost    | category |
++---------+----------------------------+-------------------+---------+----------+
+|     101 | Let Us C                   | Denis Ritchie     |  450.00 | System   |
+|     102 | Oracle Complete Ref        | Loni              |  550.00 | Database |
+|     103 | Mastering SQL              | Loni              |  350.00 | RDBMS    |
+|     104 | PL SQL Ref                 | Scott Urman       |  750.00 | Database |
+|     105 | National Geographic        | Adis Scott        | 1000.00 | Science  |
+|     106 | Data Structures            | Seymour Lipschutz |  600.00 | Science  |
+|     107 | Operating System Concepts  | Galvin            |  850.00 | System   |
+|     108 | Database Management System | Korth             |  700.00 | RDBMS    |
+|     109 | Harry Potter               | J.K. Rowling      |  500.00 | Fiction  |
+|     110 | Computer Networks          | Andrew Tanenbaum  |  900.00 | Science  |
+|     111 | Advanced MySQL             | Paul DuBois       |  650.00 | Database |
++---------+----------------------------+-------------------+---------+----------+
+11 rows in set (0.00 sec)
